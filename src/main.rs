@@ -3,6 +3,7 @@
 #[macro_use] extern crate rocket;
 
 mod controllers;
+mod models;
 
 fn main() {
     let routes = routes![];
