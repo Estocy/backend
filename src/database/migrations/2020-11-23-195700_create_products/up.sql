@@ -1,7 +1,7 @@
 -- Your SQL goes here
 CREATE TABLE products (
-  id UUID PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
-  name VARCHAR PRIMARY KEY,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR NOT NULL,
   description VARCHAR NOT NULL,
   store_name VARCHAR,
   store_price DECIMAL,
@@ -10,5 +10,5 @@ CREATE TABLE products (
   color VARCHAR NOT NULL,
   weight DECIMAL NOT NULL,
   brand VARCHAR NOT NULL,
-  stock_amount INTEGER NOT NULL,
+  stock_amount INTEGER NOT NULL
 );
