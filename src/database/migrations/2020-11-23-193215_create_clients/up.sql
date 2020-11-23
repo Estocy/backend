@@ -1,0 +1,8 @@
+-- Your SQL goes here
+CREATE TABLE clients (
+  id UUID PRIMARY KEY DEFAULT UUID_GENERATE_V4(),
+  name VARCHAR NOT NULL,
+  email VARCHAR NOT NULL,
+  phone_number VARCHAR NOT NULL,
+  address VARCHAR NOT NULL,
+)
