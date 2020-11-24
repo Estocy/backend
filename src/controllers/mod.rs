@@ -1,7 +1,7 @@
 
-mod users;
-mod clients;
-mod category;
-mod request;
-mod product;
-mod support;
+pub mod users;
+pub mod clients;
+pub mod category;
+pub mod request;
+pub mod product;
+pub mod support;

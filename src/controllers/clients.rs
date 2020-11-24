@@ -9,7 +9,16 @@ pub fn create(client: Json<Client>) -> Json<Client> {
 
 #[get("/index")]
 pub fn index() -> Json<Vec<Client>> {
-    todo!()
+    let mut clients = Vec::new();
+    clients.push(Client {
+        id: Uuid::new_v4(),
+        email: String::from("luisjuniorbr@gmail.com"),
+        name: String::from("Luiz Junio"),
+        address: String::new(),
+        phone_number: String::from("31 98930-0801")
+    });
+
+    Json(clients)
 }
 
 #[get("/<id>/show")]

@@ -1,6 +1,7 @@
-use crate::models::request::Request;
 use rocket_contrib::json::Json;
 use uuid::Uuid;
+
+use crate::models::request::Request;
 
 #[post("/create", format="json", data = "<request>")]
 pub fn create(request: Json<Request>) -> Json<Request> {
