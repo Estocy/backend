@@ -9,11 +9,12 @@ edition = "2018"
 [dependencies]
 rocket = "0.4.5"
 diesel = { version = "1.4.4", features = ["postgres"] }
+lettre = "0.9"
+lettre_email = "0.9"
 dotenv = "0.15.0"
 chrono = { version = "0.4.19", features = ["serde"] }
 serde = { version = "1.0.117", features = ["derive"] }
 uuid = { version = "0.8", features = ["serde", "v4"] }
-
 
 [dependencies.rocket_contrib]
 version = "0.4.6"
