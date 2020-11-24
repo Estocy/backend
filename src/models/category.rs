@@ -6,9 +6,9 @@ use crate::database::schema::categories;
 
 #[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Category {
-    id: Uuid,
-    label: String,
-    tag_color: String
+    pub id: Uuid,
+    pub label: String,
+    pub tag_color: String
 }
 
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]

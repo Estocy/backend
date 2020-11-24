@@ -12,18 +12,3 @@ fn create() {
     //assert_eq!(response.body_string(), Some("Hello, world!".into()));
     todo!();
 }
-
-#[test]
-fn index() {
-    todo!()
-}
-
-#[test]
-fn show() {
-    todo!()
-}
-
-#[test]
-fn delete() {
-    todo!()
-}

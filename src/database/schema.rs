@@ -10,9 +10,9 @@ table! {
     clients (id) {
         id -> Uuid,
         name -> Varchar,
-        email -> Varchar,
-        phone_number -> Varchar,
-        address -> Varchar,
+        email -> Nullable<Varchar>,
+        phone_number -> Nullable<Varchar>,
+        address -> Nullable<Varchar>,
     }
 }
 

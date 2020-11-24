@@ -50,7 +50,7 @@ fn get_rocket_instance() -> rocket::Rocket {
         client::show,
         client::delete
     ];
-    let support_routes = routes![];
+    let support_routes = routes![support::create];
 
     rocket::ignite()
         .mount("/users", user_routes)
