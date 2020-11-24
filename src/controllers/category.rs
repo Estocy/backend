@@ -1,5 +1,6 @@
 use crate::models::category::{Category, NewCategory};
 use crate::database::connection::establish_connection;
+use crate::database::schema::categories;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
 use diesel::prelude::*;
@@ -7,8 +8,6 @@ use diesel::prelude::*;
 
 #[post("/", format="json", data = "<category>")]
 pub fn create(category: Json<NewCategory>) -> Json<Category> {
-    use crate::database::schema::categories;
-
     let connection = establish_connection();
     let category = diesel::insert_into(categories::table)
         .values(&category.0)

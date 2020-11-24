@@ -9,7 +9,6 @@ mod controllers;
 mod database;
 mod models;
 
-
 use controllers::{
     category,
     client,
@@ -53,12 +52,12 @@ fn get_rocket_instance() -> rocket::Rocket {
     let support_routes = routes![support::create];
 
     rocket::ignite()
-        .mount("/users", user_routes)
-        .mount("/requests", request_routes)
-        .mount("/products", product_routes)
         .mount("/categories", category_routes)
         .mount("/clients", client_routes)
+        .mount("/products", product_routes)
+        .mount("/requests", request_routes)
         .mount("/support", support_routes)
+        .mount("/users", user_routes)
 }
 
 fn main() {
