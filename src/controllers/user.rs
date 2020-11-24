@@ -7,6 +7,16 @@ pub fn create(user: Json<User>) -> Json<User> {
     todo!()
 }
 
+#[get("/")]
+pub fn index() -> Json<Vec<User>>{
+    todo!()
+}
+
+#[get("/<id>")]
+pub fn show(id: String) -> Json<User> {
+    todo!()
+}
+
 #[delete("/<id>/delete")]
 pub fn delete(id: String) -> Json<bool> {
     todo!()

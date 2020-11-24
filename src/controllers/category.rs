@@ -1,29 +1,37 @@
-use crate::models::category::Category;
+use crate::models::category::{Category, NewCategory};
 use crate::database::connection::establish_connection;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
+use diesel::prelude::*;
 
 
-#[post("/create", format="json", data = "<category>")]
-pub fn create(category: Json<Category>) {
+#[post("/", format="json", data = "<category>")]
+pub fn create(category: Json<NewCategory>) -> Json<Category> {
+    use crate::database::schema::categories;
+
     let connection = establish_connection();
-    todo!()
+    let category = diesel::insert_into(categories::table)
+        .values(&category.0)
+        .get_result(&connection)
+        .unwrap();
+
+    Json(category)
 }
 
-#[get("/index")]
+#[get("/")]
 pub fn index() -> Json<Vec<Category>> {
     let connection = establish_connection();
     todo!()
 }
 
-#[get("/<id>/show")]
+#[get("/<id>")]
 pub fn show(id: String) -> Json<Category> {
     let connection = establish_connection();
     todo!()
 
 }
 
-#[delete("/<id>/delete")]
+#[delete("/<id>")]
 pub fn delete(id: String) -> Json<bool> {
     let connection = establish_connection();
     todo!()

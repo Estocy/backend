@@ -3,25 +3,25 @@ use uuid::Uuid;
 
 use crate::models::request::Request;
 
-#[post("/create", format="json", data = "<request>")]
+#[post("/", format="json", data = "<request>")]
 pub fn create(request: Json<Request>) -> Json<Request> {
 
     todo!()
 }
 
-#[get("/index")]
+#[get("/")]
 pub fn index() -> Json<Vec<Request>> {
     todo!()
 
 }
 
-#[get("/<id>/create")]
+#[get("/<id>")]
 pub fn show(id: String) -> Json<Request>{
     todo!()
 
 }
 
-#[delete("/<id>/delete")]
+#[delete("/<id>")]
 pub fn delete(id: String) -> Json<Request>{
     todo!()
 

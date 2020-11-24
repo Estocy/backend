@@ -1,6 +1,7 @@
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
 use serde::{Serialize, Deserialize};
+use diesel::Queryable;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub enum RequestStatus {
@@ -10,7 +11,7 @@ pub enum RequestStatus {
    Canceled
 }
 
-#[derive(Deserialize, Serialize, Clone, Debug)]
+#[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Request {
     id: Uuid,
     user_id: Uuid,

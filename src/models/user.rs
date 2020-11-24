@@ -1,7 +1,8 @@
 use uuid::Uuid;
 use serde::{Serialize, Deserialize};
+use diesel::Queryable;
 
-#[derive(Deserialize, Serialize, Clone, Debug)]
+#[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct User {
     id: Uuid,
     name: String,
