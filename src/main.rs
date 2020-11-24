@@ -5,15 +5,16 @@
 mod controllers;
 mod database;
 mod models;
+#[cfg(test)] mod tests;
 
-use controllers::clients;
+use controllers::client;
 
-fn main() {
+fn get_rocket_instance() -> rocket::Rocket {
     let user_routes = routes![];
     let request_routes = routes![];
     let product_routes = routes![];
     let category_routes = routes![];
-    let client_routes = routes![clients::index];
+    let client_routes = routes![client::index];
     let support_routes = routes![];
 
     rocket::ignite().mount("/user", user_routes)
@@ -22,5 +23,9 @@ fn main() {
                     .mount("/category", category_routes)
                     .mount("/client", client_routes)
                     .mount("/support", support_routes)
-                    .launch();
+}
+
+fn main() {
+    let rocket = get_rocket_instance();
+    rocket.launch();
 }
