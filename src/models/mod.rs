@@ -1,6 +1,6 @@
 
-mod client;
-mod user;
-mod product;
-mod request;
-mod category;
+pub mod client;
+pub mod user;
+pub mod product;
+pub mod request;
+pub mod category;

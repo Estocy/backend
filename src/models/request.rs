@@ -1,7 +1,8 @@
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
+use serde::{Serialize, Deserialize};
 
-
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub enum RequestStatus {
    Open,
    Completed,
@@ -9,6 +10,7 @@ pub enum RequestStatus {
    Canceled
 }
 
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Request {
     id: Uuid,
     user_id: Uuid,

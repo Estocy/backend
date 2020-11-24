@@ -1,5 +1,8 @@
 use uuid::Uuid;
 
+use serde::{Serialize, Deserialize};
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Product {
     id: Uuid,
     name: String,

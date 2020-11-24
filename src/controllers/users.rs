@@ -1,8 +1,12 @@
+use crate::models::user::User;
+use uuid::Uuid;
 
-pub struct UsersController {
-
+#[post("/create")]
+pub fn create(user: User) -> User {
+    todo!()
 }
 
-impl UsersController {
-
+#[delete("/<id>/delete")]
+pub fn delete(id: Uuid) -> bool{
+    todo!()
 }

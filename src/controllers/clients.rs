@@ -1,8 +1,23 @@
+use crate::models::client::Client;
+use rocket_contrib::json::Json;
+use uuid::Uuid;
 
-pub struct ClientsController {
-
+#[post("/create", format="json", data = "<client>")]
+pub fn create(client: Json<Client>) -> Json<Client> {
+    todo!()
 }
 
-impl ClientsController {
+#[get("/index")]
+pub fn index() -> Json<Vec<Client>> {
+    todo!()
+}
 
+#[get("/<id>/show")]
+pub fn show(id: String) -> Json<Client> {
+    todo!()
+}
+
+#[delete("/<id>/delete")]
+pub fn delete(id: String) -> Json<bool> {
+    todo!()
 }
