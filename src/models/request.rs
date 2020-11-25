@@ -1,7 +1,9 @@
 use uuid::Uuid;
-use chrono::{DateTime, Utc};
+use chrono:: NaiveDate;
 use serde::{Serialize, Deserialize};
 use diesel::Queryable;
+
+use crate::database::schema::requests;
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub enum RequestStatus {
@@ -13,14 +15,28 @@ pub enum RequestStatus {
 
 #[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Request {
-    id: Uuid,
-    user_id: Uuid,
-    client_id: Uuid,
-    sale_date: DateTime::<Utc>,
-    delivery_date: DateTime::<Utc>,
-    status: RequestStatus,
-    comments: String,
-    price: f32,
-    discount: f32,
-    freight: f32
+    pub id: Uuid,
+    pub user_id: Uuid,
+    pub client_id: Uuid,
+    pub sale_date: NaiveDate,
+    pub delivery_date: NaiveDate,
+    pub status: i32,
+    pub comments: Option<String>,
+    pub price: f32,
+    pub discount: f32,
+    pub freight: f32
+}
+
+#[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
+#[table_name="requests"]
+pub struct NewRequest<'a> {
+    pub user_id: Uuid,
+    pub client_id: Uuid,
+    pub sale_date: NaiveDate,
+    pub delivery_date: NaiveDate,
+    pub status: i32,
+    pub comments: Option<&'a str>,
+    pub price: f32,
+    pub discount: f32,
+    pub freight: f32
 }

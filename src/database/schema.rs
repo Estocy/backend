@@ -43,8 +43,8 @@ table! {
 table! {
     requests (id) {
         id -> Uuid,
-        user_id -> Nullable<Uuid>,
-        client_id -> Nullable<Uuid>,
+        user_id -> Uuid,
+        client_id -> Uuid,
         sale_date -> Date,
         delivery_date -> Date,
         status -> Int4,
