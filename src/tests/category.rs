@@ -90,12 +90,6 @@ fn delete() {
         .dispatch();
     let response_category_create: Category = serde_json::from_str(response_create.body_string().unwrap().as_str()).unwrap();
 
-    let response_client_expected = Category{
-            id: response_category_create.id,
-            label: String::from("test"),
-            tag_color: String::from("#ffffff")
-    };
-
     let mut response = client.delete(format!("/categories/{}",response_category_create.id))
         .header(ContentType::JSON)
         .body(serde_json::to_string(&categories).unwrap())
