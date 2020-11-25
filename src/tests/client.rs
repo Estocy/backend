@@ -37,6 +37,11 @@ fn create() {
     assert_eq!(response_client.email, response_client_expected.email);
     assert_eq!(response_client.phone_number, response_client_expected.phone_number);
     assert_eq!(response_client.address, response_client_expected.address);
+
+    let mut response = client.delete(format!("/clients/{}",response_client.id))
+        .header(ContentType::JSON)
+        .body(serde_json::to_string(&clients).unwrap())
+        .dispatch();
 }
 
 #[test]

@@ -20,35 +20,31 @@ pub fn create(category: Json<NewCategory>) -> Json<Category> {
 #[get("/")]
 pub fn index() -> Json<Vec<Category>> {
     let connection = establish_connection();
-    todo!()
+    let results = categories.load::<Category>(&connection)
+        .expect("Error loading posts");
+
+    Json(results)
+
 }
 
 #[get("/<id>")]
 pub fn show(id: String) -> Json<Category> {
     let connection = establish_connection();
-    todo!()
+    let results = categories.find(Uuid::parse_str(id.as_str()).unwrap())
+        .load::<Category>(&connection)
+        .expect("Error loading posts");
 
+    Json(results[0].clone())
 }
 
 #[delete("/<id>")]
 pub fn delete(id: String) -> Json<bool> {
     let connection = establish_connection();
-    todo!()
+    let client = categories.find(Uuid::parse_str(id.as_str()).unwrap());
+    let result = diesel::delete(client)
+        .execute(&connection);
+    match result{ 
+        Ok(_) => Json(true),
+        Err(_) => Json(false)
+    }
 }
-/*
-use self::models::{Category, NewCategory};
-
-pub fn create_post<'a>(conn: &PgConnection, title: &'a str, body: &'a str) -> Post {
-    use schema::posts;
-
-    let new_post = NewPost {
-        title: title,
-        body: body,
-    };
-
-    diesel::insert_into(posts::table)
-        .values(&new_post)
-        .get_result(conn)
-        .expect("Error saving new post")
-}
- */
