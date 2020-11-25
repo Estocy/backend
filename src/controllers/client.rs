@@ -1,10 +1,9 @@
 use crate::models::client::{Client, NewClient};
 use crate::database::connection::establish_connection;
-use crate::database::schema::clients::dsl;
 use crate::database::schema::clients::dsl::clients;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
-use diesel::prelude::*;
+use diesel::{deserialize::QueryableByName, prelude::*};
 
 
 #[post("/", format="json", data = "<client>")]
@@ -28,27 +27,34 @@ pub fn index() -> Json<Vec<Client>> {
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<Result<Client, &'static str>> {
+pub fn show(id: String) -> Option<Json<Client>> {
     let connection = establish_connection();
     let results = clients.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<Client>(&connection)
         .expect("Error loading posts");
 
     if results.len() == 0 {
-        Json(Err("Esse cliente não existe!!!"))
+        None
     } else {
-        Json(Ok(results[0].clone()))
+        Some(Json(results[0].clone()))
     }
 }
 
 #[delete("/<id>")]
-pub fn delete(id: String) -> Json<bool> {
+pub fn delete(id: String) -> Option<()> {
     let connection = establish_connection();
     let client = clients.find(Uuid::parse_str(id.as_str()).unwrap());
+
     let result = diesel::delete(client)
         .execute(&connection);
-    match result{
-        Ok(_) => Json(true),
-        Err(_) => Json(false)
+    match result {
+        Ok(qnt_deleted) => {
+            if qnt_deleted == 0 {
+                None
+            } else {
+                Some(())
+            }
+        },
+        Err(_) => None
     }
 }
