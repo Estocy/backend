@@ -26,26 +26,33 @@ pub fn index() -> Json<Vec<Category>> {
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<Result<Category, &'static str>>{
+pub fn show(id: String) -> Option<Json<Category>>{
     let connection = establish_connection();
     let results = categories.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<Category>(&connection)
         .expect("Error loading posts");
-    if results.len() == 0{
-        Json(Err("Categoria não encontrada"))
-    }else{
-        Json(Ok(results[0].clone()))
+
+    if results.len() == 0 {
+        None
+    } else {
+        Some(Json(results[0].clone()))
     }
 }
 
 #[delete("/<id>")]
-pub fn delete(id: String) -> Json<bool> {
+pub fn delete(id: String) -> Option<()> {
     let connection = establish_connection();
     let client = categories.find(Uuid::parse_str(id.as_str()).unwrap());
     let result = diesel::delete(client)
         .execute(&connection);
-    match result{
-        Ok(_) => Json(true),
-        Err(_) => Json(false)
+    match result {
+        Ok(qnt_deleted) => {
+            if qnt_deleted == 0 {
+                None
+            } else {
+                Some(())
+            }
+        },
+        Err(_) => None
     }
 }

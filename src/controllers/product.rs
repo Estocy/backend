@@ -26,28 +26,34 @@ pub fn index() -> Json<Vec<Product>> {
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<Result<Product, &'static str>> {
+pub fn show(id: String) -> Option<Json<Product>> {
     let connection = establish_connection();
     let results = products.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<Product>(&connection)
         .expect("Error loading posts");
 
-    if results.len() == 0{
-        Json(Err("Produto não encontrado"))
-    }else{
-        Json(Ok(results[0].clone()))
+    if results.len() == 0 {
+        None
+    } else {
+        Some(Json(results[0].clone()))
     }
 }
 
 #[delete("/<id>")]
-pub fn delete(id: String) -> Json<bool> {
+pub fn delete(id: String) -> Option<()> {
     let connection = establish_connection();
     let product = products.find(Uuid::parse_str(id.as_str()).unwrap());
     let result = diesel::delete(product)
         .execute(&connection);
 
-    match result{
-        Ok(_) => Json(true),
-        Err(_) => Json(false)
+    match result {
+        Ok(qnt_deleted) => {
+            if qnt_deleted == 0 {
+                None
+            } else {
+                Some(())
+            }
+        },
+        Err(_) => None
     }
 }
