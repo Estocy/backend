@@ -22,11 +22,11 @@ table! {
         name -> Varchar,
         description -> Varchar,
         store_name -> Nullable<Varchar>,
-        store_price -> Nullable<Numeric>,
-        price -> Numeric,
-        additional_charge -> Nullable<Numeric>,
+        store_price -> Nullable<Float4>,
+        price -> Float4,
+        additional_charge -> Nullable<Float4>,
         color -> Varchar,
-        weight -> Numeric,
+        weight -> Float4,
         brand -> Varchar,
         stock_amount -> Int4,
     }
@@ -51,9 +51,9 @@ table! {
         delivery_date -> Date,
         status -> Int4,
         comments -> Nullable<Varchar>,
-        price -> Numeric,
-        discount -> Numeric,
-        freight -> Numeric,
+        price -> Float4,
+        discount -> Float4,
+        freight -> Float4,
     }
 }
 
@@ -63,8 +63,8 @@ table! {
         request_id -> Nullable<Uuid>,
         product_id -> Nullable<Uuid>,
         amount -> Int4,
-        additional_costs -> Numeric,
-        discount -> Numeric,
+        additional_costs -> Float4,
+        discount -> Float4,
     }
 }
 

@@ -1,10 +1,9 @@
-use crate::models::category::{Category, NewCategory};
 use crate::database::connection::establish_connection;
 use crate::database::schema::categories::dsl::categories;
-use uuid::Uuid;
-use rocket_contrib::json::Json;
+use crate::models::category::{Category, NewCategory};
 use diesel::prelude::*;
-
+use rocket_contrib::json::Json;
+use uuid::Uuid;
 
 #[post("/", format="json", data = "<category>")]
 pub fn create(category: Json<NewCategory>) -> Json<Category> {
@@ -24,7 +23,6 @@ pub fn index() -> Json<Vec<Category>> {
         .expect("Error loading posts");
 
     Json(results)
-
 }
 
 #[get("/<id>")]
@@ -43,7 +41,7 @@ pub fn delete(id: String) -> Json<bool> {
     let client = categories.find(Uuid::parse_str(id.as_str()).unwrap());
     let result = diesel::delete(client)
         .execute(&connection);
-    match result{ 
+    match result{
         Ok(_) => Json(true),
         Err(_) => Json(false)
     }

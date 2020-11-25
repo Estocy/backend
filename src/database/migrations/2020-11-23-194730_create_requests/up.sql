@@ -7,7 +7,7 @@ CREATE TABLE requests (
   delivery_date DATE NOT NULL,
   status INTEGER NOT NULL,
   comments VARCHAR,
-  price DECIMAL NOT NULL,
-  discount DECIMAL NOT NULL,
-  freight DECIMAL NOT NULL
+  price REAL NOT NULL,
+  discount REAL NOT NULL,
+  freight REAL NOT NULL
 );

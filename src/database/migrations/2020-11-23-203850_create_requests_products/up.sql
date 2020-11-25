@@ -4,6 +4,6 @@ CREATE TABLE requests_products (
   request_id UUID references requests(id) ON DELETE CASCADE,
   product_id UUID references clients(id) ON DELETE CASCADE,
   amount INTEGER NOT NULL,
-  additional_costs DECIMAL NOT NULL,
-  discount DECIMAL NOT NULL
+  additional_costs REAL NOT NULL,
+  discount REAL NOT NULL
 );
