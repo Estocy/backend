@@ -8,9 +8,9 @@ use crate::database::schema::clients;
 pub struct Client {
     pub id: Uuid,
     pub name: String,
-    pub email: String,
-    pub phone_number: String,
-    pub address: String
+    pub email: Option<String>,
+    pub phone_number: Option<String>,
+    pub address: Option<String>
 }
 
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]

@@ -22,17 +22,17 @@ pub fn index() -> Json<Vec<Client>> {
     let mut client = Vec::new();
     client.push(Client {
         id: Uuid::new_v4(),
-        email: String::from("luisjuniorbr@gmail.com"),
+        email: Some(String::from("luisjuniorbr@gmail.com")),
         name: String::from("Luiz Junio"),
-        address: String::new(),
-        phone_number: String::from("31 98930-0801")
+        address: Some(String::new()),
+        phone_number: Some(String::from("31 98930-0801"))
     });
     client.push(Client {
         id: Uuid::new_v4(),
-        email: String::from("mihoyo@gmail.com"),
+        email: Some(String::from("mihoyo@gmail.com")),
         name: String::from("Paimon"),
-        address: String::from("Teyvat"),
-        phone_number: String::from("")
+        address: Some(String::from("Teyvat")),
+        phone_number: Some(String::from(""))
     });
 
     Json(client)
