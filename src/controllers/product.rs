@@ -1,19 +1,30 @@
 use crate::database::connection::establish_connection;
 use crate::database::schema::products::dsl::products;
-use crate::models::product::{Product, NewProduct};
+use crate::database::schema::products_categories::dsl;
+use crate::database::schema::products_categories::dsl::products_categories;
+use crate::models::product::{Product, NewProduct, ProductReceiver};
+use crate::models::product_category::{NewProductCategory, ProductCategory};
 use diesel::prelude::*;
 use rocket_contrib::json::Json;
 use uuid::Uuid;
 
 #[post("/", format="json", data = "<product>")]
-pub fn create(product: Json<NewProduct>) -> Json<Product> {
+pub fn create(product: Json<ProductReceiver>) -> Json<Product> {
     let connection = establish_connection();
-    let product = diesel::insert_into(products)
-        .values(&product.0)
+
+    let product_created: Product = diesel::insert_into(products)
+        .values(&product.0.product)
         .get_result(&connection)
         .unwrap();
 
-    Json(product)
+    for category in &product.0.categories {
+        let product_category:ProductCategory = diesel::insert_into(products_categories)
+            .values( (dsl::product_id.eq(product_created.id), dsl::category_id.eq(category)))
+            .get_result(&connection)
+            .unwrap();
+    }
+
+    Json(product_created)
 }
 
 #[get("/")]

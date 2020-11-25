@@ -35,10 +35,8 @@ table! {
 table! {
     products_categories (id) {
         id -> Uuid,
-        product_id -> Nullable<Uuid>,
-        category_id -> Nullable<Uuid>,
-        label -> Varchar,
-        tag_color -> Varchar,
+        product_id -> Uuid,
+        category_id -> Uuid,
     }
 }
 

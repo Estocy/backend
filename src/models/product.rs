@@ -33,3 +33,10 @@ pub struct NewProduct<'a> {
     pub brand: &'a str,
     pub stock_amount: i32
 }
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct ProductReceiver<'a>{
+    #[serde(borrow)]
+    pub product: NewProduct<'a>,
+    pub categories: Vec<Uuid>
+}
