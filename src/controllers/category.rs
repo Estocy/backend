@@ -26,13 +26,16 @@ pub fn index() -> Json<Vec<Category>> {
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<Category> {
+pub fn show(id: String) -> Json<Result<Category, &'static str>>{
     let connection = establish_connection();
     let results = categories.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<Category>(&connection)
         .expect("Error loading posts");
-
-    Json(results[0].clone())
+    if results.len() == 0{
+        Json(Err("Categoria não encontrada"))
+    }else{
+        Json(Ok(results[0].clone()))
+    }
 }
 
 #[delete("/<id>")]

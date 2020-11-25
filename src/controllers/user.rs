@@ -27,13 +27,17 @@ pub fn index() -> Json<Vec<User>>{
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<User> {
+pub fn show(id: String) -> Json<Result<User, &'static str>> {
     let connection = establish_connection();
     let results = users.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<User>(&connection)
         .expect("Error loading posts");
 
-    Json(results[0].clone())
+    if results.len() == 0{
+        Json(Err("Usuário não encontrado"))
+    }else{
+        Json(Ok(results[0].clone()))
+    }
 }
 
 #[delete("/<id>")]
