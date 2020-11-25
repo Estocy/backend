@@ -25,17 +25,20 @@ pub fn index() -> Json<Vec<Client>> {
         .expect("Error loading posts");
 
     Json(results)
-
 }
 
 #[get("/<id>")]
-pub fn show(id: String) -> Json<Client> {
+pub fn show(id: String) -> Json<Result<Client, &'static str>> {
     let connection = establish_connection();
     let results = clients.find(Uuid::parse_str(id.as_str()).unwrap())
         .load::<Client>(&connection)
         .expect("Error loading posts");
 
-    Json(results[0].clone())
+    if results.len() == 0 {
+        Json(Err("Esse cliente não existe!!!"))
+    } else {
+        Json(Ok(results[0].clone()))
+    }
 }
 
 #[delete("/<id>")]
@@ -44,7 +47,7 @@ pub fn delete(id: String) -> Json<bool> {
     let client = clients.find(Uuid::parse_str(id.as_str()).unwrap());
     let result = diesel::delete(client)
         .execute(&connection);
-    match result{ 
+    match result{
         Ok(_) => Json(true),
         Err(_) => Json(false)
     }
