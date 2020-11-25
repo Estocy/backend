@@ -10,8 +10,8 @@ pub struct User {
     pub name: String,
     pub email: String,
     pub password: String,
-    pub share_photos: bool,
-    pub darkmode: bool
+    pub share_photos: Option<bool>,
+    pub darkmode: Option<bool>
 }
 
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
@@ -20,6 +20,6 @@ pub struct NewUser<'a> {
     pub name: &'a str,
     pub email: &'a str,
     pub password: &'a str,
-    pub share_photos: bool,
-    pub darkmode: bool
+    pub share_photos: Option<bool>,
+    pub darkmode: Option<bool>
 }

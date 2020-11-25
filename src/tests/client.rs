@@ -124,5 +124,4 @@ fn delete() {
         .dispatch();
 
     assert_eq!(response.status(), Status::Ok);
-    assert_eq!(response.body_string().unwrap(), "true");
 }

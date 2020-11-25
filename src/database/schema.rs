@@ -74,8 +74,8 @@ table! {
         name -> Varchar,
         email -> Varchar,
         password -> Varchar,
-        share_photos -> Bool,
-        darkmode -> Bool,
+        share_photos -> Nullable<Bool>,
+        darkmode -> Nullable<Bool>,
     }
 }
 

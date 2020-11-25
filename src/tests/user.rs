@@ -13,16 +13,16 @@ fn create() {
         name: "Quick",
         email: "henrique.fquick@gmail.com",
         password: "123",
-        share_photos: false,
-        darkmode: false
+        share_photos: None,
+        darkmode: Some(false)
     };
     let response_user_expected = User{
         id: Uuid::new_v4(),
         name: String::from("Quick"),
         email: String::from("henrique.fquick@gmail.com"),
         password: String::from("123"),
-        share_photos: false,
-        darkmode: false
+        share_photos: Some(false),
+        darkmode: Some(false)
 };
     let mut response_create = client.post("/users")
         .header(ContentType::JSON)
@@ -50,8 +50,8 @@ fn show() {
         name: "Quick",
         email: "henrique.fquick@gmail.com",
         password: "123",
-        share_photos: false,
-        darkmode: false
+        share_photos: Some(false),
+        darkmode: Some(false)
     };
     let mut response_create = client.post("/users")
         .header(ContentType::JSON)
@@ -64,8 +64,8 @@ fn show() {
             name: String::from("Quick"),
             email: String::from("henrique.fquick@gmail.com"),
             password: String::from("123"),
-            share_photos: false,
-            darkmode: false
+            share_photos: Some(false),
+            darkmode: Some(false)
     };
 
     let mut response = client.get(format!("/users/{}",response_user_create.id))
@@ -98,8 +98,8 @@ fn delete() {
         name: "Quick",
         email: "henrique.fquick@gmail.com",
         password: "123",
-        share_photos: false,
-        darkmode: false
+        share_photos: Some(false),
+        darkmode: Some(false)
     };
     let mut response_create = client.post("/users")
         .header(ContentType::JSON)
@@ -113,5 +113,4 @@ fn delete() {
         .dispatch();
 
     assert_eq!(response.status(), Status::Ok);
-    assert_eq!(response.body_string().unwrap(), "true");
 }

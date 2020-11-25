@@ -5,17 +5,17 @@ use crate::database::schema::products;
 
 #[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Product {
-    id: Uuid,
-    name: String,
-    description: String,
-    store_name: Option<String>,
-    store_price: Option<f32>,
-    price: f32,
-    additional_charge: Option<f32>,
-    color: String,
-    weight: f32,
-    brand: String,
-    stock_amount: i32
+    pub id: Uuid,
+    pub name: String,
+    pub description: String,
+    pub store_name: Option<String>,
+    pub store_price: Option<f32>,
+    pub price: f32,
+    pub additional_charge: Option<f32>,
+    pub color: String,
+    pub weight: f32,
+    pub brand: String,
+    pub stock_amount: i32
 }
 
 
@@ -24,7 +24,7 @@ pub struct Product {
 pub struct NewProduct<'a> {
     pub name: &'a str,
     pub description: &'a str,
-    pub store_name: &'a str,
+    pub store_name: Option<&'a str>,
     pub store_price: Option<f32>,
     pub price: f32,
     pub additional_charge: Option<f32>,

@@ -4,6 +4,6 @@ CREATE TABLE users (
   name VARCHAR NOT NULL,
   email VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
-  share_photos BOOLEAN NOT NULL DEFAULT 'f',
-  darkmode BOOLEAN NOT NULL DEFAULT 'f'
+  share_photos BOOLEAN DEFAULT 'f',
+  darkmode BOOLEAN DEFAULT 'f'
 );

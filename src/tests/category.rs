@@ -30,6 +30,11 @@ fn create() {
 
     assert_eq!(response_category.label, response_category_expected.label);
     assert_eq!(response_category.tag_color, response_category_expected.tag_color);
+
+    let mut response = client.delete(format!("/categories/{}",response_category.id))
+    .header(ContentType::JSON)
+    .body(serde_json::to_string(&category).unwrap())
+    .dispatch();
 }
 
 #[test]
@@ -96,5 +101,4 @@ fn delete() {
         .dispatch();
 
     assert_eq!(response.status(), Status::Ok);
-    assert_eq!(response.body_string().unwrap(), "true");
 }
