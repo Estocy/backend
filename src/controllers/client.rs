@@ -1,5 +1,6 @@
 use crate::models::client::{Client, NewClient};
 use crate::database::connection::establish_connection;
+use crate::database::schema::clients::dsl;
 use crate::database::schema::clients::dsl::clients;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
@@ -19,31 +20,32 @@ pub fn create(client: Json<NewClient>) -> Json<Client> {
 
 #[get("/")]
 pub fn index() -> Json<Vec<Client>> {
-    let mut client = Vec::new();
-    client.push(Client {
-        id: Uuid::new_v4(),
-        email: Some(String::from("luisjuniorbr@gmail.com")),
-        name: String::from("Luiz Junio"),
-        address: Some(String::new()),
-        phone_number: Some(String::from("31 98930-0801"))
-    });
-    client.push(Client {
-        id: Uuid::new_v4(),
-        email: Some(String::from("mihoyo@gmail.com")),
-        name: String::from("Paimon"),
-        address: Some(String::from("Teyvat")),
-        phone_number: Some(String::from(""))
-    });
+    let connection = establish_connection();
+    let results = clients.load::<Client>(&connection)
+        .expect("Error loading posts");
 
-    Json(client)
+    Json(results)
+
 }
 
 #[get("/<id>")]
 pub fn show(id: String) -> Json<Client> {
-    todo!()
+    let connection = establish_connection();
+    let results = clients.find(Uuid::parse_str(id.as_str()).unwrap())
+        .load::<Client>(&connection)
+        .expect("Error loading posts");
+
+    Json(results[0].clone())
 }
 
 #[delete("/<id>")]
 pub fn delete(id: String) -> Json<bool> {
-    todo!()
+    let connection = establish_connection();
+    let client = clients.find(Uuid::parse_str(id.as_str()).unwrap());
+    let result = diesel::delete(client)
+        .execute(&connection);
+    match result{ 
+        Ok(_) => Json(true),
+        Err(_) => Json(false)
+    }
 }
