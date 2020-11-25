@@ -1,6 +1,6 @@
 use crate::models::category::{Category, NewCategory};
 use crate::database::connection::establish_connection;
-use crate::database::schema::categories::dsl::*;
+use crate::database::schema::categories::dsl::categories;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
 use diesel::prelude::*;
