@@ -44,6 +44,7 @@ table! {
 table! {
     requests (id) {
         id -> Uuid,
+        code -> Int4,
         user_id -> Uuid,
         client_id -> Uuid,
         sale_date -> Date,

@@ -16,6 +16,7 @@ pub enum RequestStatus {
 #[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Request {
     pub id: Uuid,
+    pub code: i32,
     pub user_id: Uuid,
     pub client_id: Uuid,
     pub sale_date: NaiveDate,
@@ -30,6 +31,7 @@ pub struct Request {
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
 #[table_name="requests"]
 pub struct NewRequest<'a> {
+    pub code: i32,
     pub user_id: Uuid,
     pub client_id: Uuid,
     pub sale_date: NaiveDate,
