@@ -10,6 +10,7 @@ fn create() {
     let client = Client::new(get_rocket_instance()).expect("valid rocket instance");
     let product = NewProduct{
         name: "Produto",
+        code: 1,
         description: "Descricao",
         store_name: Some("Store name"),
         store_price: Some(10.5),
@@ -45,6 +46,7 @@ fn create() {
     let response_product_expected = Product{
             id: Uuid::new_v4(),
             name: String::from("Produto"),
+            code: 1,
             description: String::from("Descricao"),
             store_name: Some(String::from("Store name")),
             store_price: Some(10.5),
@@ -66,6 +68,7 @@ fn create() {
     let response_product: Product = serde_json::from_str(response.body_string().unwrap().as_str()).unwrap();
 
     assert_eq!(response_product.name, response_product_expected.name);
+    assert_eq!(response_product.code, response_product_expected.code);
     assert_eq!(response_product.description, response_product_expected.description);
     assert_eq!(response_product.store_name, response_product_expected.store_name);
     assert_eq!(response_product.store_price, response_product_expected.store_price);
@@ -92,6 +95,7 @@ fn show() {
     let client = Client::new(get_rocket_instance()).expect("valid rocket instance");
     let product = NewProduct{
         name: "Produto",
+        code: 1,
         description: "Descricao",
         store_name: Some("Store name"),
         store_price: Some(10.5),
@@ -106,6 +110,7 @@ fn show() {
     let expected_product = Product{
         id: Uuid::new_v4(),
         name: String::from("Produto"),
+        code: 1,
         description: String::from("Descricao"),
         store_name: Some(String::from("Store name")),
         store_price: Some(10.5),
@@ -151,6 +156,7 @@ fn show() {
     let response_product: (Product, Vec<Category>) = serde_json::from_str(response.body_string().unwrap().as_str()).unwrap();
 
     assert_eq!(response_product.0.name, expected_product.name);
+    assert_eq!(response_product.0.code, expected_product.code);
     assert_eq!(response_product.0.description, expected_product.description);
     assert_eq!(response_product.0.store_name, expected_product.store_name);
     assert_eq!(response_product.0.store_price, expected_product.store_price);
@@ -176,6 +182,7 @@ fn delete() {
     let client = Client::new(get_rocket_instance()).expect("valid rocket instance");
     let product = NewProduct{
         name: "Produto",
+        code: 1,
         description: "Descricao",
         store_name: Some("Store name"),
         store_price: Some(10.5),
@@ -211,6 +218,7 @@ fn delete() {
     let response_product_expected = Product{
             id: Uuid::new_v4(),
             name: String::from("Produto"),
+            code: 1,
             description: String::from("Descricao"),
             store_name: Some(String::from("Store name")),
             store_price: Some(10.5),
@@ -232,6 +240,7 @@ fn delete() {
     let response_product: Product = serde_json::from_str(response.body_string().unwrap().as_str()).unwrap();
 
     assert_eq!(response_product.name, response_product_expected.name);
+    assert_eq!(response_product.code, response_product_expected.code);
     assert_eq!(response_product.description, response_product_expected.description);
     assert_eq!(response_product.store_name, response_product_expected.store_name);
     assert_eq!(response_product.store_price, response_product_expected.store_price);
