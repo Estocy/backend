@@ -40,3 +40,13 @@ pub struct NewRequest<'a> {
     pub discount: f32,
     pub freight: f32
 }
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct RequestReceiver<'a>{
+    #[serde(borrow)]
+    pub request: NewRequest<'a>,
+    pub product_id: Uuid,
+    pub amount: i32,
+    pub additional_costs: f32,
+    pub discount: f32
+}

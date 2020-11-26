@@ -58,8 +58,8 @@ table! {
 table! {
     requests_products (id) {
         id -> Uuid,
-        request_id -> Nullable<Uuid>,
-        product_id -> Nullable<Uuid>,
+        request_id -> Uuid,
+        product_id -> Uuid,
         amount -> Int4,
         additional_costs -> Float4,
         discount -> Float4,
@@ -81,7 +81,7 @@ joinable!(products_categories -> categories (category_id));
 joinable!(products_categories -> products (product_id));
 joinable!(requests -> clients (client_id));
 joinable!(requests -> users (user_id));
-joinable!(requests_products -> clients (product_id));
+joinable!(requests_products -> products (product_id));
 joinable!(requests_products -> requests (request_id));
 
 allow_tables_to_appear_in_same_query!(

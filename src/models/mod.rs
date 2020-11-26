@@ -6,3 +6,4 @@ pub mod request;
 pub mod category;
 pub mod support;
 pub mod product_category;
+pub mod request_product;
