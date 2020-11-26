@@ -20,6 +20,7 @@ table! {
     products (id) {
         id -> Uuid,
         name -> Varchar,
+        code -> Int4,
         description -> Varchar,
         store_name -> Nullable<Varchar>,
         store_price -> Nullable<Float4>,

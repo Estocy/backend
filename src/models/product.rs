@@ -7,6 +7,7 @@ use crate::database::schema::products;
 pub struct Product {
     pub id: Uuid,
     pub name: String,
+    pub code: i32,
     pub description: String,
     pub store_name: Option<String>,
     pub store_price: Option<f32>,
@@ -23,6 +24,7 @@ pub struct Product {
 #[table_name="products"]
 pub struct NewProduct<'a> {
     pub name: &'a str,
+    pub code: i32,
     pub description: &'a str,
     pub store_name: Option<&'a str>,
     pub store_price: Option<f32>,

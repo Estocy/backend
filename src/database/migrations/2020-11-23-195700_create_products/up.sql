@@ -2,6 +2,7 @@
 CREATE TABLE products (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR NOT NULL,
+  code INTEGER NOT NULL,
   description VARCHAR NOT NULL,
   store_name VARCHAR,
   store_price REAL,
