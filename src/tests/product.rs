@@ -86,11 +86,6 @@ fn create() {
 }
 
 #[test]
-fn index() {
-    todo!()
-}
-
-#[test]
 fn show() {
     let client = Client::new(get_rocket_instance()).expect("valid rocket instance");
     let product = NewProduct{
