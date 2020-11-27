@@ -52,7 +52,8 @@ fn get_rocket_instance() -> rocket::Rocket {
         client::create,
         client::index,
         client::show,
-        client::delete
+        client::delete,
+        client::show_by_email
     ];
     let support_routes = routes![support::create];
 

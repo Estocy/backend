@@ -28,6 +28,22 @@ pub fn index(id_user: String) -> Json<Vec<Client>> {
     Json(results)
 }
 
+#[get("/show/<id_user>/<email>")]
+pub fn show_by_email(id_user: String, email: String) -> Option<Json<Client>> {
+    let connection = establish_connection();
+    let results = clients.filter(dsl::user_id.eq(Uuid::parse_str(id_user.as_str()).unwrap()))
+        .filter(dsl::email.eq(email))
+        .load::<Client>(&connection)
+        .expect("Error loading posts");
+
+    if results.len() == 0 {
+        None
+    } else {
+        Some(Json(results[0].clone()))
+    }
+}
+
+
 #[get("/<id_user>/<id>")]
 pub fn show(id_user: String, id: String) -> Option<Json<Client>> {
     let connection = establish_connection();
