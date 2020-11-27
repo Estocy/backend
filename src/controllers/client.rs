@@ -1,5 +1,6 @@
 use crate::models::client::{Client, NewClient};
 use crate::database::connection::establish_connection;
+use crate::database::schema::clients::dsl;
 use crate::database::schema::clients::dsl::clients;
 use uuid::Uuid;
 use rocket_contrib::json::Json;
@@ -17,19 +18,21 @@ pub fn create(client: Json<NewClient>) -> Json<Client> {
     Json(client)
 }
 
-#[get("/")]
-pub fn index() -> Json<Vec<Client>> {
+#[get("/<id_user>")]
+pub fn index(id_user: String) -> Json<Vec<Client>> {
     let connection = establish_connection();
-    let results = clients.load::<Client>(&connection)
+    let results = clients.filter(dsl::user_id.eq(Uuid::parse_str(id_user.as_str()).unwrap()))
+        .load::<Client>(&connection)
         .expect("Error loading posts");
 
     Json(results)
 }
 
-#[get("/<id>")]
-pub fn show(id: String) -> Option<Json<Client>> {
+#[get("/<id_user>/<id>")]
+pub fn show(id_user: String, id: String) -> Option<Json<Client>> {
     let connection = establish_connection();
-    let results = clients.find(Uuid::parse_str(id.as_str()).unwrap())
+    let results = clients.filter(dsl::id.eq(Uuid::parse_str(id.as_str()).unwrap()))
+        .filter(dsl::user_id.eq(Uuid::parse_str(id_user.as_str()).unwrap()))
         .load::<Client>(&connection)
         .expect("Error loading posts");
 
@@ -40,10 +43,11 @@ pub fn show(id: String) -> Option<Json<Client>> {
     }
 }
 
-#[delete("/<id>")]
-pub fn delete(id: String) -> Option<()> {
+#[delete("/<id_user>/<id>")]
+pub fn delete(id_user: String, id: String) -> Option<()> {
     let connection = establish_connection();
-    let client = clients.find(Uuid::parse_str(id.as_str()).unwrap());
+    let client = clients.filter(dsl::id.eq(Uuid::parse_str(id.as_str()).unwrap()))
+        .filter(dsl::user_id.eq(Uuid::parse_str(id_user.as_str()).unwrap()));
 
     let result = diesel::delete(client)
         .execute(&connection);
