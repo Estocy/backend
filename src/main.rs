@@ -9,7 +9,7 @@ mod controllers;
 mod database;
 mod models;
 
-use rocket::{Request, Response};
+use rocket::{Request, Response, Data};
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::http::Header;
 
@@ -75,6 +75,13 @@ impl Fairing for CORS {
             name: "Add CORS headers to requests",
             kind: Kind::Response
         }
+    }
+
+    fn on_request(&self, request: &mut Request, _data: &Data) {
+        request.add_header(Header::new("Access-Control-Allow-Origin", "*"));
+        request.add_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
+        request.add_header(Header::new("Access-Control-Allow-Headers", "*"));
+        request.add_header(Header::new("Access-Control-Allow-Credentials", "true"));
     }
 
     fn on_response(&self, request: &Request, response: &mut Response) {
