@@ -9,9 +9,7 @@ mod controllers;
 mod database;
 mod models;
 
-use rocket::{Request, Response, Data};
-use rocket::fairing::{Fairing, Info, Kind};
-use rocket::http::Header;
+use rocket_cors::CorsOptions;
 
 use controllers::{
     category,
@@ -56,6 +54,8 @@ fn get_rocket_instance() -> rocket::Rocket {
     ];
     let support_routes = routes![support::create];
 
+    let cors = CorsOptions::default().to_cors().unwrap();
+
     rocket::ignite()
         .mount("/categories", category_routes)
         .mount("/clients", client_routes)
@@ -63,33 +63,7 @@ fn get_rocket_instance() -> rocket::Rocket {
         .mount("/requests", request_routes)
         .mount("/support", support_routes)
         .mount("/users", user_routes)
-        .attach(CORS())
-}
-
-
-pub struct CORS();
-
-impl Fairing for CORS {
-    fn info(&self) -> Info {
-        Info {
-            name: "Add CORS headers to requests",
-            kind: Kind::Response
-        }
-    }
-
-    fn on_request(&self, request: &mut Request, _data: &Data) {
-        request.add_header(Header::new("Access-Control-Allow-Origin", "*"));
-        request.add_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
-        request.add_header(Header::new("Access-Control-Allow-Headers", "*"));
-        request.add_header(Header::new("Access-Control-Allow-Credentials", "true"));
-    }
-
-    fn on_response(&self, request: &Request, response: &mut Response) {
-        response.set_header(Header::new("Access-Control-Allow-Origin", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Methods", "POST, GET, PATCH, OPTIONS"));
-        response.set_header(Header::new("Access-Control-Allow-Headers", "*"));
-        response.set_header(Header::new("Access-Control-Allow-Credentials", "true"));
-    }
+        .attach(cors)
 }
 
 fn main() {
