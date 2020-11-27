@@ -76,32 +76,33 @@ fn delete() {
 
 fn createRequest() -> (Request, Request){
     let client = rocket::local::Client::new(get_rocket_instance()).expect("valid rocket instance");
+
+    let users = NewUser{
+        name: "Quick",
+        email: "henrique.fquick@gmail.com",
+        password: "123",
+        share_photos: None,
+        darkmode: Some(false)
+    };
+
+    let mut response_create = client.post("/users")
+        .header(ContentType::JSON)
+        .body(serde_json::to_string(&users).unwrap())
+        .dispatch();
+    let response_user_create: User = serde_json::from_str(response_create.body_string().unwrap().as_str()).unwrap();
+
     let clients = NewClient{
+        user_id:response_user_create.id,
         name: "Quick2",
         email: "henrique.fquick@gmail.com",
         phone_number: "31998180608",
         address: "Rua teste"
     };
-    let mut response_client = client.post("/clients")
+    let mut response_client = client.post(format!("/clients"))
         .header(ContentType::JSON)
         .body(serde_json::to_string(&clients).unwrap())
         .dispatch();
     let response_client_created: Client = serde_json::from_str(response_client.body_string().unwrap().as_str()).unwrap();
-
-
-
-    let user = NewUser{
-        name: "Quick",
-        email: "henrique.fquick@gmail.com",
-        password: "123",
-        share_photos: Some(false),
-        darkmode: Some(false)
-    };
-    let mut response_user = client.post("/users")
-        .header(ContentType::JSON)
-        .body(serde_json::to_string(&user).unwrap())
-        .dispatch();
-    let response_user_created: User = serde_json::from_str(response_user.body_string().unwrap().as_str()).unwrap();
 
 
     let product = NewProduct{
@@ -131,7 +132,7 @@ fn createRequest() -> (Request, Request){
 
     let request = NewRequest{
         code: 1,
-        user_id: response_user_created.id,
+        user_id: response_user_create.id,
         client_id: response_client_created.id,
         sale_date: NaiveDate::from_ymd(2020, 11, 25),
         delivery_date: NaiveDate::from_ymd(2020, 11, 25),
@@ -155,7 +156,7 @@ fn createRequest() -> (Request, Request){
     let response_request_expected = Request{
         id: Uuid::new_v4(),
         code: 1,
-        user_id: response_user_created.id,
+        user_id: response_user_create.id,
         client_id: response_client_created.id,
         sale_date: NaiveDate::from_ymd(2020, 11, 25),
         delivery_date: NaiveDate::from_ymd(2020, 11, 25),

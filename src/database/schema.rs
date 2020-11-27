@@ -9,6 +9,7 @@ table! {
 table! {
     clients (id) {
         id -> Uuid,
+        user_id -> Uuid,
         name -> Varchar,
         email -> Nullable<Varchar>,
         phone_number -> Nullable<Varchar>,
@@ -79,6 +80,7 @@ table! {
     }
 }
 
+joinable!(clients -> users (user_id));
 joinable!(products_categories -> categories (category_id));
 joinable!(products_categories -> products (product_id));
 joinable!(requests -> clients (client_id));
