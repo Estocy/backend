@@ -27,7 +27,8 @@ fn get_rocket_instance() -> rocket::Rocket {
         user::create,
         user::index,
         user::show,
-        user::delete
+        user::delete,
+        user::login
     ];
     let request_routes = routes![
         request::create,

@@ -23,3 +23,9 @@ pub struct NewUser<'a> {
     pub share_photos: Option<bool>,
     pub darkmode: Option<bool>
 }
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct Login<'a> {
+    pub email: &'a str,
+    pub password: &'a str
+}
