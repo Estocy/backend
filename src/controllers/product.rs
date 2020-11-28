@@ -11,22 +11,34 @@ use rocket_contrib::json::Json;
 use uuid::Uuid;
 
 #[post("/", format="json", data = "<product>")]
-pub fn create(product: Json<ProductReceiver>) -> Json<Product> {
+pub fn create(product: Json<ProductReceiver>) -> Option<Json<Product>> {
     let connection = establish_connection();
+    use crate::database::schema::products::dsl;
 
-    let product_created: Product = diesel::insert_into(products)
-        .values(&product.0.product)
-        .get_result(&connection)
-        .unwrap();
-
-    for category in &product.0.categories {
-        let product_category:ProductCategory = diesel::insert_into(products_categories)
-            .values( (dsl::product_id.eq(product_created.id), dsl::category_id.eq(category)))
+    let results = products.filter(dsl::code.eq(&product.0.product.code))
+        .load::<Product>(&connection)
+        .expect("Error loading posts");
+    
+   
+    if results.len() == 0 {
+        use crate::database::schema::products_categories::dsl;
+        let product_created: Product = diesel::insert_into(products)
+            .values(&product.0.product)
             .get_result(&connection)
             .unwrap();
+
+        for category in &product.0.categories {
+            let product_category:ProductCategory = diesel::insert_into(products_categories)
+                .values( (dsl::product_id.eq(product_created.id), dsl::category_id.eq(category)))
+                .get_result(&connection)
+                .unwrap();
+        }
+        Some(Json(product_created))
+    }else{
+        None
     }
 
-    Json(product_created)
+    
 }
 
 #[get("/")]

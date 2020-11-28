@@ -8,29 +8,41 @@ use diesel::prelude::*;
 
 
 #[post("/", format="json", data = "<user>")]
-pub fn create(user: Json<NewUser>) -> Json<User> {
+pub fn create(user: Json<NewUser>) -> Option<Json<User>> {
     println!("{:?}", user);
     let connection = establish_connection();
-    let user = diesel::insert_into(users)
-        .values(&user.0)
-        .get_result(&connection)
-        .unwrap();
 
-    Json(user)
+    let results = users.filter(dsl::email.eq(&user.0.email))
+        .load::<User>(&connection)
+        .expect("Error loading posts");
+
+    if results.len() == 0 {
+        let user = diesel::insert_into(users)
+            .values(&user.0)
+            .get_result(&connection)
+            .unwrap();
+        return Some(Json(user));
+    }else{
+        return None;
+    }
+
+
+
+    
 }
 
-#[get("/login", format="json", data = "<user>")]
-pub fn login(user: Json<Login>) -> Option<()> {
+#[get("/login/<email>/<pass>",)]
+pub fn login(email: String, pass:String) -> Option<Json<Uuid>> {
     let connection = establish_connection();
-    let results = users.filter(dsl::email.eq(&user.0.email))
-        .filter(dsl::password.eq(&user.0.password))
+    let results = users.filter(dsl::email.eq(email))
+        .filter(dsl::password.eq(pass))
         .load::<User>(&connection)
         .expect("Error loading posts");
 
     if results.len() == 0 {
         None
     } else {
-        Some(())
+        Some(Json(results[0].id))
     }
 }
 
