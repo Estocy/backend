@@ -1,6 +1,6 @@
+use diesel::{Insertable, Queryable};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use serde::{Serialize, Deserialize};
-use diesel::{Queryable, Insertable};
 
 use crate::database::schema::categories;
 
@@ -8,12 +8,12 @@ use crate::database::schema::categories;
 pub struct Category {
     pub id: Uuid,
     pub label: String,
-    pub tag_color: String
+    pub tag_color: String,
 }
 
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
-#[table_name="categories"]
+#[table_name = "categories"]
 pub struct NewCategory<'a> {
     pub label: &'a str,
-    pub tag_color: &'a str
+    pub tag_color: &'a str,
 }

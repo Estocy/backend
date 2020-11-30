@@ -1,6 +1,6 @@
+use diesel::{Insertable, Queryable};
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use serde::{Serialize, Deserialize};
-use diesel::{Queryable, Insertable};
 
 use crate::database::schema::users;
 
@@ -11,21 +11,21 @@ pub struct User {
     pub email: String,
     pub password: String,
     pub share_photos: Option<bool>,
-    pub darkmode: Option<bool>
+    pub darkmode: Option<bool>,
 }
 
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
-#[table_name="users"]
+#[table_name = "users"]
 pub struct NewUser<'a> {
     pub name: &'a str,
     pub email: &'a str,
     pub password: &'a str,
     pub share_photos: Option<bool>,
-    pub darkmode: Option<bool>
+    pub darkmode: Option<bool>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Login<'a> {
     pub email: &'a str,
-    pub password: &'a str
+    pub password: &'a str,
 }

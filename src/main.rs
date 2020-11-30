@@ -1,9 +1,13 @@
 #![feature(proc_macro_hygiene, decl_macro)]
 
-#[macro_use] extern crate rocket;
-#[macro_use] extern crate diesel;
+#[macro_use]
+extern crate rocket;
 
-#[cfg(test)] mod tests;
+#[macro_use]
+extern crate diesel;
+
+#[cfg(test)]
+mod tests;
 
 mod controllers;
 mod database;
@@ -11,14 +15,7 @@ mod models;
 
 use rocket_cors::CorsOptions;
 
-use controllers::{
-    category,
-    client,
-    product,
-    request,
-    support,
-    user
-};
+use controllers::{category, client, product, request, support, user};
 
 fn get_rocket_instance() -> rocket::Rocket {
     let user_routes = routes![
@@ -28,24 +25,28 @@ fn get_rocket_instance() -> rocket::Rocket {
         user::delete,
         user::login
     ];
+
     let request_routes = routes![
         request::create,
         request::index,
         request::show,
         request::delete
     ];
+
     let product_routes = routes![
         product::create,
         product::index,
         product::show,
         product::delete
     ];
+
     let category_routes = routes![
         category::create,
         category::index,
         category::show,
         category::delete
     ];
+
     let client_routes = routes![
         client::create,
         client::index,
@@ -53,6 +54,7 @@ fn get_rocket_instance() -> rocket::Rocket {
         client::delete,
         client::show_by_email
     ];
+
     let support_routes = routes![support::create];
 
     let cors = CorsOptions::default().to_cors().unwrap();
@@ -69,5 +71,6 @@ fn get_rocket_instance() -> rocket::Rocket {
 
 fn main() {
     let rocket = get_rocket_instance();
+
     rocket.launch();
 }

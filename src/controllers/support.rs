@@ -7,9 +7,7 @@ extern crate lettre_email;
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};*/
 
-
-
-#[post("/", format="json", data = "<support>")]
+#[post("/", format = "json", data = "<support>")]
 pub fn create(support: Json<Support>) -> Json<Support> {
     /*let email = Message::builder()
         .from("<estocy.project@gmail.com>".parse().unwrap())
@@ -32,7 +30,7 @@ pub fn create(support: Json<Support>) -> Json<Support> {
         Err(e) => panic!("Could not send email: {:?}", e),
     }*/
 
-//    env_logger::init();
+    //    env_logger::init();
 
     support
 }

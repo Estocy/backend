@@ -1,7 +1,7 @@
-use uuid::Uuid;
-use serde::{Serialize, Deserialize};
-use diesel::{Queryable, Insertable};
 use crate::database::schema::products;
+use diesel::{Insertable, Queryable};
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
 pub struct Product {
@@ -16,12 +16,11 @@ pub struct Product {
     pub color: String,
     pub weight: f32,
     pub brand: String,
-    pub stock_amount: i32
+    pub stock_amount: i32,
 }
 
-
 #[derive(Insertable, Deserialize, Serialize, Clone, Debug)]
-#[table_name="products"]
+#[table_name = "products"]
 pub struct NewProduct<'a> {
     pub name: &'a str,
     pub code: i32,
@@ -33,12 +32,12 @@ pub struct NewProduct<'a> {
     pub color: &'a str,
     pub weight: f32,
     pub brand: &'a str,
-    pub stock_amount: i32
+    pub stock_amount: i32,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct ProductReceiver<'a>{
+pub struct ProductReceiver<'a> {
     #[serde(borrow)]
     pub product: NewProduct<'a>,
-    pub categories: Vec<Uuid>
+    pub categories: Vec<Uuid>,
 }

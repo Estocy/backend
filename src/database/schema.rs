@@ -81,11 +81,17 @@ table! {
 }
 
 joinable!(clients -> users (user_id));
+
 joinable!(products_categories -> categories (category_id));
+
 joinable!(products_categories -> products (product_id));
+
 joinable!(requests -> clients (client_id));
+
 joinable!(requests -> users (user_id));
+
 joinable!(requests_products -> products (product_id));
+
 joinable!(requests_products -> requests (request_id));
 
 allow_tables_to_appear_in_same_query!(
