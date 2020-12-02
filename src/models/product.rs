@@ -1,9 +1,9 @@
 use crate::database::schema::products;
-use diesel::{Insertable, Queryable};
+use diesel::{Insertable, Queryable, Identifiable, AsChangeset};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
+#[derive(Queryable, Identifiable, AsChangeset, Deserialize, Serialize, Clone, Debug)]
 pub struct Product {
     pub id: Uuid,
     pub name: String,
@@ -36,8 +36,14 @@ pub struct NewProduct<'a> {
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct ProductReceiver<'a> {
+pub struct NewProductReceiver<'a> {
     #[serde(borrow)]
     pub product: NewProduct<'a>,
+    pub categories: Vec<Uuid>,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct ProductReceiver {
+    pub product: Product,
     pub categories: Vec<Uuid>,
 }

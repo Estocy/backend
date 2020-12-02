@@ -7,7 +7,7 @@ use uuid::Uuid;
 use crate::{
     get_rocket_instance,
     models::category::{Category, NewCategory},
-    models::product::{NewProduct, Product, ProductReceiver},
+    models::product::{NewProduct, Product, NewProductReceiver},
 };
 
 #[test]
@@ -46,7 +46,7 @@ fn create() {
 
     categories.push(response_category.id);
 
-    let product_category = ProductReceiver {
+    let product_category = NewProductReceiver {
         product: product,
         categories: categories,
     };
@@ -172,7 +172,7 @@ fn show() {
 
     categories.push(response_category.id);
 
-    let product_category = ProductReceiver {
+    let product_category = NewProductReceiver {
         product: product,
         categories: categories,
     };
@@ -271,7 +271,7 @@ fn delete() {
 
     categories.push(response_category.id);
 
-    let product_category = ProductReceiver {
+    let product_category = NewProductReceiver {
         product: product,
         categories: categories,
     };

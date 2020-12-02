@@ -8,7 +8,7 @@ use uuid::Uuid;
 use crate::{
     get_rocket_instance,
     models::client::{Client, NewClient},
-    models::product::{NewProduct, Product, ProductReceiver},
+    models::product::{NewProduct, Product, NewProductReceiver},
     models::request::{NewRequest, Request, RequestReceiver},
     models::user::{NewUser, User},
 };
@@ -17,7 +17,7 @@ use crate::{
 fn create() {
     let client = rocket::local::Client::new(get_rocket_instance()).expect("valid rocket instance");
 
-    let (response_request, response_request_expected) = createRequest();
+    let (response_request, response_request_expected) = create_request();
 
     assert_eq!(response_request.user_id, response_request_expected.user_id);
 
@@ -62,7 +62,7 @@ fn create() {
 fn show() {
     let client = rocket::local::Client::new(get_rocket_instance()).expect("valid rocket instance");
 
-    let (response_request, response_request_expected) = createRequest();
+    let (response_request, response_request_expected) = create_request();
 
     let mut response = client
         .get(format!("/requests/{}", response_request.id))
@@ -115,9 +115,9 @@ fn show() {
 fn delete() {
     let client = rocket::local::Client::new(get_rocket_instance()).expect("valid rocket instance");
 
-    let (response_request, response_request_expected) = createRequest();
+    let (response_request, ..) = create_request();
 
-    let mut response = client
+    let response = client
         .delete(format!("/requests/{}", response_request.id))
         .header(ContentType::JSON)
         .dispatch();
@@ -125,7 +125,7 @@ fn delete() {
     assert_eq!(response.status(), Status::Ok);
 }
 
-fn createRequest() -> (Request, Request) {
+fn create_request() -> (Request, Request) {
     let client = rocket::local::Client::new(get_rocket_instance()).expect("valid rocket instance");
 
     let users = NewUser {
@@ -176,7 +176,7 @@ fn createRequest() -> (Request, Request) {
         stock_amount: 10,
     };
 
-    let product_category = ProductReceiver {
+    let product_category = NewProductReceiver {
         product: product,
         categories: Vec::<Uuid>::new(),
     };

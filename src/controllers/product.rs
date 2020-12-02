@@ -4,14 +4,14 @@ use crate::database::schema::products::dsl::products;
 use crate::database::schema::products_categories::dsl;
 use crate::database::schema::products_categories::dsl::products_categories;
 use crate::models::category::Category;
-use crate::models::product::{Product, ProductReceiver};
+use crate::models::product::{Product, NewProductReceiver, ProductReceiver};
 use crate::models::product_category::ProductCategory;
 use diesel::prelude::*;
 use rocket_contrib::json::Json;
 use uuid::Uuid;
 
 #[post("/", format = "json", data = "<product>")]
-pub fn create(product: Json<ProductReceiver>) -> Option<Json<Product>> {
+pub fn create(product: Json<NewProductReceiver>) -> Option<Json<Product>> {
     let connection = establish_connection();
 
     use crate::database::schema::products::dsl;
@@ -44,6 +44,34 @@ pub fn create(product: Json<ProductReceiver>) -> Option<Json<Product>> {
     else {
         None
     }
+}
+
+#[put("/", format = "json", data = "<product>")]
+pub fn update(product: Json<ProductReceiver>) -> Json<Product> {
+    let connection = establish_connection();
+
+    use crate::database::schema::products_categories::dsl;
+
+    let product_updated: Product = diesel::update(&product.0.product)
+        .set(&product.0.product)
+        .get_result(&connection)
+        .unwrap();
+
+    let _affected = diesel::delete(products_categories.filter(dsl::product_id.eq(product_updated.id)))
+        .execute(&connection)
+        .unwrap();
+
+    for category in &product.0.categories {
+        let _product_category: ProductCategory = diesel::insert_into(products_categories)
+            .values((
+                dsl::product_id.eq(product_updated.id),
+                dsl::category_id.eq(category),
+            ))
+            .get_result(&connection)
+            .unwrap();
+    }
+
+    Json(product_updated)
 }
 
 #[get("/")]

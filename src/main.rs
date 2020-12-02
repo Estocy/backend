@@ -35,6 +35,7 @@ fn get_rocket_instance() -> rocket::Rocket {
 
     let product_routes = routes![
         product::create,
+        product::update,
         product::index,
         product::show,
         product::delete
