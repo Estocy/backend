@@ -1,10 +1,10 @@
-use diesel::{Insertable, Queryable};
+use diesel::{Insertable, Queryable, Identifiable, AsChangeset};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use crate::database::schema::clients;
 
-#[derive(Queryable, Deserialize, Serialize, Clone, Debug)]
+#[derive(Queryable, Identifiable, AsChangeset, Deserialize, Serialize, Clone, Debug)]
 pub struct Client {
     pub id: Uuid,
     pub user_id: Uuid,

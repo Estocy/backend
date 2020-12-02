@@ -18,6 +18,18 @@ pub fn create(client: Json<NewClient>) -> Json<Client> {
     Json(client)
 }
 
+#[put("/", format = "json", data = "<client>")]
+pub fn update(client: Json<Client>) -> Json<Client> {
+    let connection = establish_connection();
+
+    let client = diesel::update(&client.0)
+        .set(&client.0)
+        .get_result(&connection)
+        .unwrap();
+
+    Json(client)
+}
+
 #[get("/<id_user>")]
 pub fn index(id_user: String) -> Json<Vec<Client>> {
     let connection = establish_connection();

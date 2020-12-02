@@ -49,6 +49,7 @@ fn get_rocket_instance() -> rocket::Rocket {
 
     let client_routes = routes![
         client::create,
+        client::update,
         client::index,
         client::show,
         client::delete,
